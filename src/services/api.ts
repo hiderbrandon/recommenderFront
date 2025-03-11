@@ -23,3 +23,14 @@ export async function getRecommendations() {
       return [];
     }
   }
+
+  export async function getStockByTicker(ticker: string) {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/stocks/${ticker}`)
+      return response.data
+    } catch (error) {
+      console.error('Error al obtener el stock:', error)
+      throw error
+    }
+  }
+  
