@@ -1,10 +1,10 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
-const API_URL =  "http://localhost:8081";
 
 export async function getStocks(limit: number, offset: number) {
   try {
-    const response = await axios.get(`${API_URL}/stocks`, {
+    const response = await axios.get(`${API_BASE_URL}/stocks`, {
       params: { limit, offset },
     });
     return response.data;
