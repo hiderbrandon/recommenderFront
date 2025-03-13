@@ -31,61 +31,64 @@ onMounted(fetchStocks);
 </script>
 
 <template>
-  <div>
-    <h1>Lista de Acciones</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Ticker</th>
-          <th>Empresa</th>
-          <th>Detalles</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="stock in stocks" :key="stock.ticker">
-          <td>{{ stock.ticker }}</td>
-          <td>{{ stock.company }}</td>
-          <td>
-            <router-link :to="'/stocks/' + stock.ticker">Ver Detalles</router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Contenedor principal -->
+  <div class="container mx-auto p-6 bg-gray-50 min-h-screen">
+    <!-- Título -->
+    <h1 class="text-4xl font-bold text-green-600 mb-6 text-center">
+      Lista de Acciones
+    </h1>
 
-    <!-- Controles de paginación -->
-    <div class="pagination">
-      <button @click="prevPage" :disabled="offset === 0">Anterior</button>
-      <button @click="nextPage">Siguiente</button>
+    <!-- Tabla con overflow-x-auto para scroll horizontal si se necesita -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Ticker</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Empresa</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Detalles</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-300">
+          <tr
+            v-for="stock in stocks"
+            :key="stock.ticker"
+            class="hover:bg-gray-100"
+          >
+            <td class="px-6 py-4 text-sm font-medium text-gray-900">
+              {{ stock.ticker }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-600">
+              {{ stock.company }}
+            </td>
+            <td class="px-6 py-4">
+              <!-- Enlace con estilo Tailwind -->
+              <router-link
+                :to="'/stocks/' + stock.ticker"
+                class="text-blue-500 hover:underline"
+              >
+                Ver Detalles
+              </router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Botones de paginación -->
+    <div class="flex justify-between mt-4">
+      <button
+        @click="prevPage"
+        :disabled="offset === 0"
+        class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded disabled:bg-gray-200 disabled:cursor-not-allowed"
+      >
+        Anterior
+      </button>
+      <button
+        @click="nextPage"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+      >
+        Siguiente
+      </button>
     </div>
   </div>
 </template>
-
-<style scoped>
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-th {
-  background-color: #f4f4f4;
-}
-.pagination {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-}
-button {
-  padding: 8px 16px;
-  border: none;
-  cursor: pointer;
-}
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-</style>
