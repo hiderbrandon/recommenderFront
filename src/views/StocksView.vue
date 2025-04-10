@@ -63,18 +63,6 @@ onMounted(fetchStocks);
       </button>
     </div>
 
-    <div class="mb-4">
-      <label for="fname" class="text-[#274472]">change page:</label><br>
-      <input v-model="test" type="text" id="fname" name="fname" class="border border-[#5885AF] rounded px-2 py-1"><br>
-      <button
-        @click="changeOffset"
-        class="mt-2 bg-[#41729F] hover:bg-[#274472] text-white font-semibold py-2 px-4 rounded"
-      >
-        submit
-      </button>
-    </div>
-    
-
     <div class="overflow-x-auto">
       <table class="min-w-full bg-white shadow-md rounded-lg">
         <thead class="bg-[#5885AF]">
