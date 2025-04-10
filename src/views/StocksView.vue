@@ -4,8 +4,10 @@ import { getStocks } from "../services/api";
 
 // Estado para guardar los stocks y controlar la paginación
 const stocks = ref<{ ticker: string; company: string }[]>([]);
-const limit = 5; // Número de resultados por página
-const offset = ref(0); // Posición de inicio para la consulta
+
+let offset = ref(0); // Posición de inicio para la consulta
+let limit = 5; // Número de resultados por página
+let test = ref(0)
 
 async function fetchStocks() {
   try {
@@ -27,44 +29,77 @@ function prevPage() {
   }
 }
 
+function changeLimit(){
+   if (test.value > 0) {
+    limit = test.value ;
+    fetchStocks();
+  }
+}
+
+
+function changeOffset(){
+    offset.value = 20;
+    fetchStocks();
+
+}
+
 onMounted(fetchStocks);
 </script>
 
 <template>
-  <!-- Contenedor principal -->
-  <div class="container mx-auto p-6 bg-gray-50 min-h-screen">
-    <!-- Título -->
-    <h1 class="text-4xl font-bold text-green-600 mb-6 text-center">
+  <div class="container mx-auto p-6 bg-[#C3E0E5] min-h-screen">
+    <h1 class="text-4xl font-bold text-[#274472] mb-6 text-center">
       Lista de Acciones
     </h1>
 
-    <!-- Tabla con overflow-x-auto para scroll horizontal si se necesita -->
+    <div class="mb-4">
+      <label for="fname" class="text-[#274472]">results per page:</label><br>
+      <input v-model="test" type="text" id="fname" name="fname" class="border border-[#5885AF] rounded px-2 py-1"><br>
+      <button
+        @click="changeLimit"
+        class="mt-2 bg-[#41729F] hover:bg-[#274472] text-white font-semibold py-2 px-4 rounded"
+      >
+        submit
+      </button>
+    </div>
+
+    <div class="mb-4">
+      <label for="fname" class="text-[#274472]">change page:</label><br>
+      <input v-model="test" type="text" id="fname" name="fname" class="border border-[#5885AF] rounded px-2 py-1"><br>
+      <button
+        @click="changeOffset"
+        class="mt-2 bg-[#41729F] hover:bg-[#274472] text-white font-semibold py-2 px-4 rounded"
+      >
+        submit
+      </button>
+    </div>
+    
+
     <div class="overflow-x-auto">
       <table class="min-w-full bg-white shadow-md rounded-lg">
-        <thead class="bg-gray-200">
+        <thead class="bg-[#5885AF]">
           <tr>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Ticker</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Empresa</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Detalles</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-white uppercase">Ticker</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-white uppercase">Empresa</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-white uppercase">Detalles</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-300">
           <tr
             v-for="stock in stocks"
             :key="stock.ticker"
-            class="hover:bg-gray-100"
+            class="hover:bg-[#C3E0E5]"
           >
-            <td class="px-6 py-4 text-sm font-medium text-gray-900">
+            <td class="px-6 py-4 text-sm font-medium text-[#274472]">
               {{ stock.ticker }}
             </td>
             <td class="px-6 py-4 text-sm text-gray-600">
               {{ stock.company }}
             </td>
             <td class="px-6 py-4">
-              <!-- Enlace con estilo Tailwind -->
               <router-link
                 :to="'/stocks/' + stock.ticker"
-                class="text-blue-500 hover:underline"
+                class="text-[#41729F] hover:underline hover:text-[#274472]"
               >
                 Ver Detalles
               </router-link>
@@ -74,18 +109,17 @@ onMounted(fetchStocks);
       </table>
     </div>
 
-    <!-- Botones de paginación -->
     <div class="flex justify-between mt-4">
       <button
         @click="prevPage"
         :disabled="offset === 0"
-        class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded disabled:bg-gray-200 disabled:cursor-not-allowed"
+        class="bg-[#5885AF] hover:bg-[#41729F] text-white font-semibold py-2 px-4 rounded disabled:bg-gray-200 disabled:cursor-not-allowed"
       >
         Anterior
       </button>
       <button
         @click="nextPage"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+        class="bg-[#41729F] hover:bg-[#274472] text-white font-semibold py-2 px-4 rounded"
       >
         Siguiente
       </button>
